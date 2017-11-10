@@ -56,24 +56,28 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-        SharedPreferencesUser preferencesUser = new SharedPreferencesUser(ProfileActivity.this);
-        preferencesUser.salvarUsuarioPreferences("id","nome", "contato", "endereco");
+       /* SharedPreferencesUser preferencesUser = new SharedPreferencesUser(ProfileActivity.this);
+        preferencesUser.salvarUsuarioPreferences("id","nome", "contato", "endereco");*/
 
     }
 
+/*
 
     private void saveUserInformation(){
         String nome = editTextNome.getText().toString().trim();
         String contato = editTextContato.getText().toString().trim();
         String endereco = editTextEndereco.getText().toString().trim();
 
-        Usuario userInformation = new Usuario(nome, contato, endereco);
+        */
+/*Usuario userInformation = new Usuario(nome, contato, endereco);*//*
+
         FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userInformation);
         SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(this);
         sharedPreferencesUser.salvarUsuarioPreferences(user.getUid(), nome, contato, endereco);
         Toast.makeText(this, "Informações salvas " + nome , Toast.LENGTH_SHORT).show();
 }
+*/
 
     public void onClick(View view){
         if (view == buttonLogout) {
@@ -82,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(new Intent(this, LoginActivity.class));
         }
          if (view == buttonSalvar){
-             saveUserInformation();
+             /*saveUserInformation();*/
              startActivity(new Intent(this, MainActivity.class));
 
          }

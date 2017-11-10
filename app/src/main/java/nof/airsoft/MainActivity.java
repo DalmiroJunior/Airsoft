@@ -1,7 +1,6 @@
 package nof.airsoft;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,39 +15,9 @@ import fragments.EquipesFragment;
 import fragments.JogosMarcadosFragment;
 import fragments.MinhaEquipeFragment;
 import fragments.SemEquipeFragment;
-import model.Usuario;
 
-import static model.Equipe.jogadores;
 
 public class MainActivity extends AppCompatActivity {
-
-
-    private Object usuario;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            final FragmentTransaction transaction = fragmentManager.beginTransaction();
-            if (item.getItemId() ==  R.id.navigation_equipes) {
-                transaction.replace(R.id.content, new EquipesFragment()).addToBackStack(null).commit();
-                return true;
-            } else if (item.getItemId() == R.id.navigation_minha_equipe) {
-                SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(getApplicationContext());
-                if(sharedPreferencesUser.possuiEquipe() == true){
-                    transaction.replace(R.id.content,new MinhaEquipeFragment()).addToBackStack(null).commit();
-                }else{
-                    transaction.replace(R.id.content, new SemEquipeFragment()).addToBackStack(null).commit();
-                }
-                return true;
-            } else if (item.getItemId() == R.id.navigation_jogos_marcados) {
-                transaction.replace(R.id.content, new JogosMarcadosFragment()).addToBackStack(null).commit();
-                return true;
-            }
-            return false;
-        }
-    };
 
 
     @Override
@@ -61,9 +29,35 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                final FragmentTransaction transaction = fragmentManager.beginTransaction();
+                switch (item.getItemId()) {
+                    case R.id.navigation_equipes:
+                        transaction.replace(R.id.content, new EquipesFragment()).addToBackStack(null).commit();
+                        break;
+
+                    case R.id.navigation_minha_equipe:
+                        transaction.replace(R.id.content, new SemEquipeFragment()).addToBackStack(null).commit();
+
+                        break;
+                    case R.id.navigation_jogos_marcados:
+                        transaction.replace(R.id.content, new JogosMarcadosFragment()).addToBackStack(null).commit();
+                        break;
+                   
+
+                }
+
+                return true;
+
+
+            }
+        });
+
+    }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {

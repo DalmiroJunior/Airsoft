@@ -4,24 +4,35 @@
     android:layout_height="match_parent"
     tools:context="nof.airsoft.layout.SemEquipeFragment">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_membros"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+
+
+        ></android.support.v7.widget.RecyclerView>
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="120dp"
         android:text="Você não está em nenhuma equipe ainda. Crie uma ou peça para entrar na aba de equipes!"
         android:textAlignment="center"
         android:textColor="@color/colorFundoLogin"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/criarEquipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Criar"
-        android:layout_gravity="center">
+        android:visibility="gone">
 
     </Button>
 

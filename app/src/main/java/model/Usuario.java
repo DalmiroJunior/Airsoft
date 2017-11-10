@@ -1,30 +1,31 @@
 package model;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import com.google.firebase.database.DatabaseReference;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.stream.Stream;
 
-import static model.Equipe.jogadores;
+import utils.ConfiguracoesFirebase;
+
 
 /**
  * Created by Dalmiro Junior on 28/09/2017.
  */
 
 public class Usuario implements Serializable {
+    private String idUsuario;
     public String usuarioNome;
     private String usuarioContato;
     private String usuarioEndereco;
+    private String idEquipe;
 
 
-    public Usuario(String nome, String contato, String endereco) {
+    public Usuario(String idUsuario, String nome, String contato, String endereco, String idEquipe) {
+        this.idUsuario = idUsuario;
         this.usuarioNome = nome;
         this.usuarioContato = contato;
         this.usuarioEndereco = endereco;
+        this.idEquipe = idEquipe;
+
 
     }
 
@@ -55,6 +56,31 @@ public class Usuario implements Serializable {
 
     public void setUsuarioEndereco(String usuarioEndereco) {
         this.usuarioEndereco = usuarioEndereco;
+    }
+
+    public String getIdEquipe() {
+        return idEquipe;
+    }
+
+    public void setIdEquipe(String idEquipe) {
+        this.idEquipe = idEquipe;
+    }
+
+    public void salvarUsuario() {
+        DatabaseReference reference = ConfiguracoesFirebase.getFirebase();
+        reference.child("usuarios/").child(String.valueOf(getIdUsuario())).setValue(this);
+
+
+
+    }
+
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
 //

@@ -1,25 +1,26 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import com.google.firebase.database.DatabaseReference;
 
-import nof.airsoft.RegistroEquipeActivity;
+import utils.ConfiguracoesFirebase;
 
 /**
  * Created by Dalmiro Junior on 05/10/2017.
  */
 
-public class Equipe{
+public class Equipe {
     private String equipeId;
     private String equipeNome;
     private String equipeLiderId;
-    public static ArrayList<Usuario> jogadores = new ArrayList<>();
+
 
     public Equipe(String equipeId, String equipeNome, String equipeLiderId) {
         super();
         this.equipeId = equipeId;
         this.equipeNome = equipeNome;
         this.equipeLiderId = equipeLiderId;
+
+
     }
 
     public String getEquipeId() {
@@ -46,16 +47,25 @@ public class Equipe{
         this.equipeLiderId = equipeLiderId;
     }
 
-    public void adicionaJogador(Usuario usuario){
-        this.jogadores.add(usuario);
+
+    public void criarEquipe(Usuario usuario) {
+        DatabaseReference reference = ConfiguracoesFirebase.getFirebase();
+        reference.child("equipes/").child(String.valueOf(getEquipeId())).child("dados/").setValue(this);
+
+        //adiciona o membro adm que criou a equipe
+        DatabaseReference reference2 = ConfiguracoesFirebase.getFirebase();
+
+        reference2.child("equipes/").child(String.valueOf(getEquipeId())).child("membros/").child(usuario.getIdUsuario()).setValue(usuario);
+
+
     }
 
-    public void removerJogador(Usuario usuario){
-        this.jogadores.remove(usuario);
-    }
+    public void entrar(Usuario usuario, String idEquipe) {
+        DatabaseReference reference2 = ConfiguracoesFirebase.getFirebase();
 
-    public static boolean verificaJogador(Usuario usuario) {
-        return jogadores.contains(usuario);
+        reference2.child("equipes/").child(idEquipe).child("membros/").child(usuario.getIdUsuario()).setValue(usuario);
+
+
     }
 
 

@@ -2,19 +2,34 @@ package fragments;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+import adapters.AdapterMembros;
 import model.Usuario;
 import nof.airsoft.R;
 import nof.airsoft.RegistroEquipeActivity;
+import utils.GetDataFromFirebase;
 
-import static model.Equipe.jogadores;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,11 +40,16 @@ import static model.Equipe.jogadores;
  * create an instance of this fragment.
  */
 public class SemEquipeFragment extends Fragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private Button button;
+    private TextView textView;
+    private RecyclerView recyclerView;
+    private ArrayList<Usuario> membros_list;
+    private AdapterMembros adapterMembros;
 
 
     // TODO: Rename and change types of parameters
@@ -38,7 +58,8 @@ public class SemEquipeFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-    private Object usuario;
+    private Usuario usuario;
+    private DatabaseReference databaseReference, referenceMembros;
 
     public SemEquipeFragment() {
         // Required empty public constructor
@@ -70,6 +91,8 @@ public class SemEquipeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
@@ -78,19 +101,99 @@ public class SemEquipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sem_equipe, container, false);
 
         button = (Button) view.findViewById(R.id.criarEquipe);
+        textView = (TextView) view.findViewById(R.id.textView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_membros);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 startActivity(new Intent(getActivity(), RegistroEquipeActivity.class));
 
-                }
+
+            }
 
 
         });
 
-
+        verificarEquipe();
         return view;
+
+    }
+
+    private void verificarEquipe() {
+
+        String idUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        new GetDataFromFirebase().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios/" + idUsuario);
+        databaseReference.keepSynced(true);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    usuario = dataSnapshot.getValue(Usuario.class);
+                    if (usuario.getIdEquipe().equals("_")) {
+                        button.setVisibility(View.VISIBLE);
+                        textView.setVisibility(View.VISIBLE);
+
+
+                    } else {
+                        recyclerView.setVisibility(View.VISIBLE);
+                        carregarMenbros(usuario.getIdEquipe());
+
+                        recyclerView.setHasFixedSize(true);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+                        adapterMembros = new AdapterMembros(getActivity(), membros_list, recyclerView);
+                        recyclerView.setAdapter(adapterMembros);
+                    }
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void carregarMenbros(String idEquipe) {
+
+        membros_list = new ArrayList<>();
+        new GetDataFromFirebase().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        referenceMembros = FirebaseDatabase.getInstance().getReference("equipes/" + idEquipe + "/" + "membros");
+        referenceMembros.keepSynced(true);
+        referenceMembros.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    membros_list.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Usuario usuario = snapshot.getValue(Usuario.class);
+                        Log.e("ggg",usuario.getUsuarioNome());
+                        membros_list.add(usuario);
+
+                    }
+                    adapterMembros.atualiza(membros_list);
+
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
@@ -123,4 +226,6 @@ public class SemEquipeFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }
