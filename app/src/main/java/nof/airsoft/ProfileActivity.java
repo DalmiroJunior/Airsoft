@@ -56,8 +56,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-       /* SharedPreferencesUser preferencesUser = new SharedPreferencesUser(ProfileActivity.this);
-        preferencesUser.salvarUsuarioPreferences("id","nome", "contato", "endereco");*/
 
     }
 
@@ -86,7 +84,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(new Intent(this, LoginActivity.class));
         }
          if (view == buttonSalvar){
-             /*saveUserInformation();*/
              startActivity(new Intent(this, MainActivity.class));
 
          }
