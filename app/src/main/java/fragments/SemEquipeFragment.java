@@ -133,14 +133,14 @@ public class SemEquipeFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     usuario = dataSnapshot.getValue(Usuario.class);
-                    if (usuario.getIdEquipe().equals("_")) {
+                    if (usuario.getIdEquipe().isEmpty()) {
                         button.setVisibility(View.VISIBLE);
                         textView.setVisibility(View.VISIBLE);
 
 
                     } else {
                         recyclerView.setVisibility(View.VISIBLE);
-                        carregarMenbros(usuario.getIdEquipe());
+                        carregarMembros(usuario.getIdEquipe());
 
                         recyclerView.setHasFixedSize(true);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -164,7 +164,7 @@ public class SemEquipeFragment extends Fragment {
 
     }
 
-    private void carregarMenbros(String idEquipe) {
+    private void carregarMembros(String idEquipe) {
 
         membros_list = new ArrayList<>();
         new GetDataFromFirebase().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

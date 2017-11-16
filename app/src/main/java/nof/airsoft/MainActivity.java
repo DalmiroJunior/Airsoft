@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.navigation_minha_equipe:
                         transaction.replace(R.id.content, new SemEquipeFragment()).addToBackStack(null).commit();
-
                         break;
+
                     case R.id.navigation_jogos_marcados:
                         transaction.replace(R.id.content, new JogosMarcadosFragment()).addToBackStack(null).commit();
                         break;
