@@ -6,97 +6,18 @@
     tools:context="nof.airsoft.layout.EquipesFragment">
 
 
-    <android.support.v7.widget.CardView
-        android:layout_width="110dp"
-        android:layout_height="170dp"
-        android:layout_gravity="left"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark">
+   <ListView
+       android:id="@+id/listaEquipe"
+       android:layout_width="match_parent"
+       android:layout_height="50dp">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/equipe1"
-            android:layout_gravity="center|top"/>
+   </ListView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Equipe Exemplo"
-            android:textColor="@color/colorAccent"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"/>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="110dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="140dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark">
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/equipe2"
-            android:layout_gravity="center|top"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Equipe Exemplo"
-            android:textColor="@color/colorAccent"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"/>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="110dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="260dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark">
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/equipe3"
-            android:layout_gravity="center|top"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Equipe Exemplo"
-            android:textColor="@color/colorAccent"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"/>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="110dp"
-        android:layout_height="170dp"
-        android:layout_gravity="left"
-        android:layout_marginTop="250dp"
-        android:layout_marginLeft="20dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark"/>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="110dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="250dp"
-        android:layout_marginLeft="140dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark"/>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="110dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="250dp"
-        android:layout_marginLeft="260dp"
-        app:cardBackgroundColor="@color/colorPrimaryDark"/>
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:text="RICK LIXO"
+       android:layout_marginTop="50dp"/>
 
 
 </FrameLayout>

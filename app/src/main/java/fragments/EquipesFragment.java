@@ -1,13 +1,35 @@
 package fragments;
 
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import adapters.AdapterEquipes;
+import adapters.AdapterMembros;
+import model.Equipe;
+import model.Usuario;
 import nof.airsoft.R;
+import utils.GetDataFromFirebase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,11 +45,21 @@ public class EquipesFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private Equipe equipe;
+    private ListView listViewEquipes;
+    private ArrayList<Equipe> equipes;
     private OnFragmentInteractionListener mListener;
+    private FragmentManager fragmentManager;
+    private DatabaseReference databaseReference, referenceEquipe;
+    private AdapterEquipes adapterEquipes;
+
+
+
 
     public EquipesFragment() {
         // Required empty public constructor
@@ -57,15 +89,21 @@ public class EquipesFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
+            carregarEquipe(equipe.getEquipeNome());
+
+            listViewEquipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Equipe equipe = equipes.get(position);
+
+                    final android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.content, new EquipeFragment()).addToBackStack(null).commit();
+                }
+            });
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_equipes, container, false);
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -74,24 +112,40 @@ public class EquipesFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void carregarEquipe(String idEquipe) {
+
+        equipes = new ArrayList<>();
+        new GetDataFromFirebase().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        referenceEquipe = FirebaseDatabase.getInstance().getReference("equipes/" + idEquipe);
+        referenceEquipe.keepSynced(true);
+        referenceEquipe.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    equipes.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Equipe equipe = snapshot.getValue(Equipe.class);
+                        Log.e("aaa",equipe.getEquipeNome());
+                        equipes.add(equipe);
+                    }
+                    adapterEquipes.atualiza(equipes);
+
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 }

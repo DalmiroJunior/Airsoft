@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -111,6 +112,7 @@ public class RegistroEquipeActivity extends AppCompatActivity implements View.On
 
             Usuario usuarioUpdate = new Usuario(usuario.getIdUsuario(), usuario.getUsuarioNome(), usuario.getUsuarioContato(),usuario.getUsuarioEndereco(),equipe.getEquipeId());
             usuarioUpdate.salvarUsuario();
+
 
             equipe.criarEquipe(usuarioUpdate);
 
