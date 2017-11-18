@@ -22,7 +22,7 @@ public class AdapterEquipes extends RecyclerView.Adapter<AdapterEquipes.ViewHold
     private List<Equipe> equipes;
     private FragmentActivity activity;
 
-    public AdapterEquipes(FragmentActivity activity, ArrayList<Equipe> equipes, RecyclerView recyclerView) {
+    public AdapterEquipes(FragmentActivity activity, ArrayList<Equipe> equipes) {
         this.activity = activity;
         this.equipes = equipes;
     }
@@ -43,8 +43,6 @@ public class AdapterEquipes extends RecyclerView.Adapter<AdapterEquipes.ViewHold
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override

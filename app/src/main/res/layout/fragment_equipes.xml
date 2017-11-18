@@ -6,18 +6,5 @@
     tools:context="nof.airsoft.layout.EquipesFragment">
 
 
-   <ListView
-       android:id="@+id/listaEquipe"
-       android:layout_width="match_parent"
-       android:layout_height="50dp">
-
-   </ListView>
-
-   <TextView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:text="RICK LIXO"
-       android:layout_marginTop="50dp"/>
-
 
 </FrameLayout>

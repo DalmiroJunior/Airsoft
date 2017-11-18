@@ -90,6 +90,9 @@ public class EquipesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
 
+            ListView listaEquipe = (ListView) getActivity().findViewById(R.id.listaEquipe);
+
+
             carregarEquipe(equipe.getEquipeNome());
 
             listViewEquipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -128,6 +131,7 @@ public class EquipesFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     equipes.clear();
+                    Log.v("", "Equipes " + dataSnapshot);
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Equipe equipe = snapshot.getValue(Equipe.class);
                         Log.e("aaa",equipe.getEquipeNome());
