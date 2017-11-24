@@ -83,7 +83,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                         if (task.isSuccessful()) {
                             String idUser = task.getResult().getUser().getUid();
 
-                            Usuario usuario = new Usuario(idUser, "_", "_", email, "_");
+                            Usuario usuario = new Usuario(idUser, "", "", email, "");
                             usuario.salvarUsuario();
                             finish();
                             startActivity(new Intent(getApplicationContext(), LoginActivity.class));

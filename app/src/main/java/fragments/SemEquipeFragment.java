@@ -78,7 +78,7 @@ public class SemEquipeFragment extends Fragment {
                 try {
                     usuario = dataSnapshot.getValue(Usuario.class);
 
-                    if (!usuario.getIdEquipe().equals("_")) {
+                    if (!usuario.getIdEquipe().isEmpty()) {
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content, new MinhaEquipeFragment()).commit();
 
                     }
