@@ -76,12 +76,9 @@ public class SemEquipeFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    Log.v("", " Dataas " + dataSnapshot + " e ");
                     usuario = dataSnapshot.getValue(Usuario.class);
-                    Log.v("", " Dataas " + usuario.getIdEquipe() + " e ");
 
-                    if (!usuario.getIdEquipe().isEmpty()) {
-                        Log.v("", "GTamo ae");
+                    if (!usuario.getIdEquipe().equals("_")) {
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content, new MinhaEquipeFragment()).commit();
 
                     }
