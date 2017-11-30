@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="100dp"
         android:text="Você não está em nenhuma equipe ainda. Crie uma ou peça para entrar na aba de equipes!"
         android:textAlignment="center"
         android:textColor="@color/colorFundoLogin"

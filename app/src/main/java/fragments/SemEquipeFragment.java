@@ -53,8 +53,6 @@ public class SemEquipeFragment extends Fragment {
             public void onClick(View view) {
 
                 startActivity(new Intent(getActivity(), RegistroEquipeActivity.class));
-
-
             }
 
 
