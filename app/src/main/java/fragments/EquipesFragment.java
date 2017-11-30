@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -14,11 +15,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -56,8 +61,8 @@ public class EquipesFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private FragmentManager fragmentManager;
     private DatabaseReference databaseReference, referenceEquipe;
+    private Query queryEquipe;
     private AdapterEquipes adapterEquipes;
-
 
 
 
@@ -83,6 +88,7 @@ public class EquipesFragment extends Fragment {
         return fragment;
     }
 
+/*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,8 +98,30 @@ public class EquipesFragment extends Fragment {
 
 
         }
+
+
+    }
+*/
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootview = inflater.inflate(R.layout.fragment_equipes, container, false);
+        initViews(rootview);
+        carregarEquipes();
+        adapterEquipes = new AdapterEquipes(getActivity(), equipes);
+        listViewEquipes.setAdapter(adapterEquipes);
+
+        return rootview;
+
     }
 
+    private void initViews(View rootview) {
+        listViewEquipes = (ListView) rootview.findViewById(R.id.list_view_equipes);
+
+
+
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -107,21 +135,26 @@ public class EquipesFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private void carregarEquipe(String idEquipe) {
+    private void carregarEquipes() {
 
         equipes = new ArrayList<>();
         new GetDataFromFirebase().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        referenceEquipe = FirebaseDatabase.getInstance().getReference("equipes/" + idEquipe);
+        referenceEquipe = FirebaseDatabase.getInstance().getReference("equipes");
         referenceEquipe.keepSynced(true);
         referenceEquipe.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
                     equipes.clear();
-                    Log.v("", "Equipes " + dataSnapshot);
+
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Equipe equipe = snapshot.getValue(Equipe.class);
-                        Log.e("aaa",equipe.getEquipeNome());
+
+                        String equipeNome = String.valueOf(snapshot.child("dados").child("equipeNome").getValue());
+                        String equipeId = String.valueOf(snapshot.child("dados").child("equipeId").getValue());
+                        String equipeLiderId = String.valueOf(snapshot.child("dados").child("equipeLiderId").getValue());
+
+                        Equipe equipe=  new Equipe(equipeId, equipeNome, equipeLiderId);
+
                         equipes.add(equipe);
                     }
                     adapterEquipes.atualiza(equipes);
@@ -137,6 +170,7 @@ public class EquipesFragment extends Fragment {
             }
         });
 
-
     }
+
+
 }
