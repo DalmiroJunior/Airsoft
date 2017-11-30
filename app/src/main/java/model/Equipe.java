@@ -19,8 +19,10 @@ public class Equipe {
         this.equipeId = equipeId;
         this.equipeNome = equipeNome;
         this.equipeLiderId = equipeLiderId;
+    }
 
-
+    public Equipe(String equipeNome){
+        this.equipeNome = equipeNome;
     }
 
     public String getEquipeId() {

@@ -7,8 +7,8 @@
     <application
         android:name="utils.DadosOffLine"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/icone"
+        android:roundIcon="@drawable/icone"
         android:label="Airsoft"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -25,10 +25,7 @@
         </activity>
         <activity android:name=".ResetActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".MinhaEquipeActivity" />
         <activity android:name=".RegistroEquipeActivity" />
-        <activity android:name=".NoTeamActivity">
-        </activity>
     </application>
 
 </manifest>
