@@ -18,6 +18,18 @@
         android:layout_height="0dp"
         android:layout_weight="1"></FrameLayout>
 
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-9418670716851344/7775211228">
+    </com.google.android.gms.ads.AdView>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
@@ -29,6 +41,8 @@
         app:itemIconTint="@color/colorGray"
         app:itemTextColor="@color/colorGray"
         app:menu="@menu/navigation">
+
+
 
     </android.support.design.widget.BottomNavigationView>
 

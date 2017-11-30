@@ -2,8 +2,10 @@ package nof.airsoft;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import com.google.android.gms.ads.InterstitialAd;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import com.google.android.gms.ads.AdRequest;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +28,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private EditText editText_senha;
     private TextView textView_signin;
     private FirebaseAuth mAuth;
+    private InterstitialAd mInterstitialAd;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private ProgressDialog progressDialog;
@@ -34,6 +37,10 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-9418670716851344/7361112408");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
         mAuth = FirebaseAuth.getInstance();
@@ -100,7 +107,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         if (view == buttonRegister) {
             registerUser();
-
+            mInterstitialAd.show();
         }
         if (view == textView_signin) {
             startActivity(new Intent(this, LoginActivity.class));
