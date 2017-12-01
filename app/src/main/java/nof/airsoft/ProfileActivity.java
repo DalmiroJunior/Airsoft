@@ -3,6 +3,7 @@ package nof.airsoft;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,11 +15,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
+import model.Equipe;
 import model.Usuario;
+import utils.GetDataFromFirebase;
 
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
@@ -29,6 +35,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private EditText editTextEndereco;
     private Button buttonLogout;
     private Button buttonSalvar;
+    private Usuario usuario;
+    private Equipe equipe;
+    private String idUsuario, nomeUsuario, nomeEquipe, idEquipe;
     private DatabaseReference databaseReference;
     private SharedPreferences sharedPreferencesUser;
 
@@ -37,13 +46,44 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        idUsuario = mAuth.getCurrentUser().getUid();
+        carregaUsuario(idUsuario);
         firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() == null){
+        if (firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, LoginActivity.class));
 
         }
+    }
+
+    public void carregaUsuario(String idUsuario) {
+
+        new GetDataFromFirebase().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        databaseReference = FirebaseDatabase.getInstance().getReference("usuarios/" + idUsuario);
+        databaseReference.keepSynced(true);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    usuario = dataSnapshot.getValue(Usuario.class);
+
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("usuarios");
         buttonSalvar = (Button) findViewById(R.id.buttonSalvar);
@@ -59,23 +99,25 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-/*
 
-    private void saveUserInformation(){
-        String nome = editTextNome.getText().toString().trim();
-        String contato = editTextContato.getText().toString().trim();
-        String endereco = editTextEndereco.getText().toString().trim();
 
-        */
-/*Usuario userInformation = new Usuario(nome, contato, endereco);*//*
+            private void saveUserInformation(){
+                    String nome = editTextNome.getText().toString().trim();
+                    String contato = editTextContato.getText().toString().trim();
+                    String endereco = editTextEndereco.getText().toString().trim();
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        databaseReference.child(user.getUid()).setValue(userInformation);
-        SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(this);
-        sharedPreferencesUser.salvarUsuarioPreferences(user.getUid(), nome, contato, endereco);
-        Toast.makeText(this, "Informações salvas " + nome , Toast.LENGTH_SHORT).show();
-}
-*/
+                    Usuario userInformation = new Usuario(usuario.getIdUsuario(), nome, contato, endereco, usuario.getIdEquipe());
+
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    databaseReference.child(user.getUid()).setValue(userInformation);
+                    SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(this);
+                    sharedPreferencesUser.salvarUsuarioPreferences(user.getUid(), nome, contato, endereco);
+                    Toast.makeText(this, "Informações salvas " + nome, Toast.LENGTH_SHORT).show();
+
+
+            }
+
+
 
     public void onClick(View view){
         if (view == buttonLogout) {
@@ -84,6 +126,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(new Intent(this, LoginActivity.class));
         }
          if (view == buttonSalvar){
+             saveUserInformation();
              startActivity(new Intent(this, MainActivity.class));
 
          }
