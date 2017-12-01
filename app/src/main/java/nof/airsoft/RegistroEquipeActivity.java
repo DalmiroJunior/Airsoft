@@ -131,6 +131,7 @@ public class RegistroEquipeActivity extends AppCompatActivity implements View.On
     public void onClick(View view) {
         if (view == registarEquipe) {
             registerTeam();
+            finish();
 
         }
 

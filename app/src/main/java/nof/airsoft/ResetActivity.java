@@ -44,11 +44,8 @@ public class ResetActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if( task.isSuccessful() ){
                         email.setText("");
-                        Toast.makeText(
-                            ResetActivity.this,
-                            "Recuperação de acesso iniciada. Email enviado.",
-                            Toast.LENGTH_SHORT
-                        ).show();
+                        Toast.makeText(ResetActivity.this, "Recuperação de acesso iniciada. Email enviado.", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     else{
                         Toast.makeText(

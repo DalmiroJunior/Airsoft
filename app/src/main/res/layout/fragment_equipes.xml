@@ -4,13 +4,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></ScrollView>
 
     <ListView
         android:id="@+id/list_view_equipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-
         />
+
 
 </FrameLayout>
