@@ -9,17 +9,20 @@
     android:background="@color/colorFundo">
 
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        app:srcCompat="@drawable/foto"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"/>
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="120dp"
+            android:layout_marginTop="100dp"
+            android:layout_height="120dp"
+            app:srcCompat="@drawable/foto"
+            android:layout_gravity="center"/>
+
+
 
     <EditText
        android:padding="10dp"
-       android:layout_marginTop="80dp"
+       android:layout_marginTop="40dp"
        android:layout_marginLeft="20dp"
        android:layout_marginRight="20dp"
        android:background="@drawable/input_background"

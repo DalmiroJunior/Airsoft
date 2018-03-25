@@ -59,7 +59,12 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_jogos_marcados:
                         transaction.replace(R.id.content, new JogosMarcadosFragment()).addToBackStack(null).commit();
                         break;
-                   
+
+                        default:
+                            transaction.replace(R.id.content, new EquipesFragment()).addToBackStack(null).commit();
+                            break;
+
+
 
                 }
 

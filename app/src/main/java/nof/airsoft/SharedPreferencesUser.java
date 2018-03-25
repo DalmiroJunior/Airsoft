@@ -17,6 +17,8 @@ import model.Usuario;
 
 public class SharedPreferencesUser {
 
+    private static final String CHAVE_EQUIPE = "idEquipe";
+    private static final String CHAVE_EMAIL = "email";
     //ATRIBUTOS
     private Context contexto;
     private SharedPreferences preferencias;
@@ -36,13 +38,25 @@ public class SharedPreferencesUser {
         editor = preferencias.edit();
     }
 
-    //SALVANDO USUARIOS
-    public void salvarUsuarioPreferences(String ident, String nome, String contato, String endereco) {
+    //SALVANDO USUARIO
+    public void salvarUsuarioPreferences(String ident, String nome, String contato, String endereco, String idEquipe) {
         editor.putString(CHAVE_IDENTIFICADOR, ident);
         editor.putString(CHAVE_NOME, nome);
         editor.putString(CHAVE_CONTATO, contato);
         editor.putString(CHAVE_ENDERECO, endereco);
+        editor.putString(CHAVE_EQUIPE, idEquipe);
         editor.apply();
+    }
+
+    public Usuario getUsuario(){
+        Usuario usuario = new Usuario();
+        usuario.setIdEquipe(getIdEquipe());
+        usuario.setUsuarioNome(getUsuarioNome());
+        return usuario;
+    }
+
+    private String getIdEquipe() {
+        return preferencias.getString(CHAVE_EQUIPE, "");
     }
 
     //RECUPERANDO
@@ -67,5 +81,14 @@ public class SharedPreferencesUser {
             return true;
         }
         return false;
+    }
+
+    public void salvaEmail(String email) {
+        editor.putString(CHAVE_EMAIL, email.replace(".",""));
+        editor.apply();
+    }
+
+    public String getEmail() {
+        return preferencias.getString(CHAVE_EMAIL, "");
     }
 }

@@ -42,7 +42,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="Nome da Equipe"
+                        android:id="@+id/text_nome_equipe"
                         android:textColor="@color/colorBranca"
                         android:textSize="20dp" />
 
@@ -61,14 +61,6 @@
                         android:text="Contato: "
                         android:textColor="@color/colorSecundaria"
                         android:textSize="15dp" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:text="Participar"
-                        android:textAlignment="center"
-                        android:layout_gravity="bottom|right"
-                        android:layout_marginRight="5dp"/>
 
                 </LinearLayout>
 
@@ -112,18 +104,8 @@
                     android:textColor="@color/colorBranca"
                     android:textSize="20dp"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_participantes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
-                <android.support.v7.widget.CardView
-                    android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    app:cardBackgroundColor="@color/colorPrimaryDark">
 
-                </android.support.v7.widget.CardView>
 
 
 

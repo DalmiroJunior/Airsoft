@@ -18,8 +18,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 import model.Usuario;
+import utils.ConfiguracoesFirebase;
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -89,10 +91,9 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             String idUser = task.getResult().getUser().getUid();
-                            Usuario usuario = new Usuario(idUser, "", "", "", "");
-                            usuario.salvarUsuario();
-                            finish();
+                            new SharedPreferencesUser(getApplicationContext()).salvaEmail(email);
                             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                            finish();
                         } else {
                             Toast.makeText(RegistroActivity.this, "Não foi possivel realizar o cadastro, tente novamente.", Toast.LENGTH_SHORT).show();
                         }

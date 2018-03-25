@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import model.Equipe;
 import model.Usuario;
 import utils.ConfiguracoesFirebase;
@@ -104,17 +107,20 @@ public class RegistroEquipeActivity extends AppCompatActivity implements View.On
 
             String equipeId = ConfiguracoesFirebase.getFirebase().push().getKey();
             Equipe equipe = new Equipe(equipeId, nomeEquipe, idUsuario);
+            DatabaseReference reference = ConfiguracoesFirebase.getFirebase();
+            reference.child("equipes/").child(String.valueOf(equipeId)).child("dados/").setValue(equipe);
+
+            //adiciona o membro adm que criou a equipe
+            DatabaseReference reference2 = ConfiguracoesFirebase.getFirebase();
 
 
 
-            //atualiza Dados do usuario e cria equipe
+            reference2.child("equipes/").child(equipeId).child("membros/").child(idUsuario).setValue(usuario);
 
-
-            Usuario usuarioUpdate = new Usuario(usuario.getIdUsuario(), usuario.getUsuarioNome(), usuario.getUsuarioContato(),usuario.getUsuarioEndereco(),equipe.getEquipeId());
-            usuarioUpdate.salvarUsuario();
-
-
-            equipe.criarEquipe(usuarioUpdate);
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("usuarios").child(idUsuario);
+            Map<String, Object> map = new HashMap<>();
+            map.put("idEquipe", equipeId);
+            databaseReference.updateChildren(map);
 
 
 

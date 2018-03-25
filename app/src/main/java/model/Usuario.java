@@ -17,6 +17,7 @@ public class Usuario implements Serializable {
     private String usuarioContato;
     private String usuarioEndereco;
     private String idEquipe;
+    private String email;
 
 
     public Usuario(String idUsuario, String nome, String contato, String endereco, String idEquipe) {
@@ -42,7 +43,11 @@ public class Usuario implements Serializable {
 
     }
 
-
+    public Usuario(String nome, String contato, String endereco) {
+        setUsuarioNome(nome);
+        setUsuarioContato(contato);
+        setUsuarioEndereco(endereco);
+    }
 
 
     public String getUsuarioNome() {
@@ -77,14 +82,6 @@ public class Usuario implements Serializable {
         this.idEquipe = idEquipe;
     }
 
-    public void salvarUsuario() {
-        DatabaseReference reference = ConfiguracoesFirebase.getFirebase();
-        reference.child("usuarios/").child(String.valueOf(getIdUsuario())).setValue(this);
-
-
-
-    }
-
 
     public String getIdUsuario() {
         return idUsuario;
@@ -92,6 +89,14 @@ public class Usuario implements Serializable {
 
     public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 //

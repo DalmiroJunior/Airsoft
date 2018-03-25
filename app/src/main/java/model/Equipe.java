@@ -51,13 +51,6 @@ public class Equipe {
 
 
     public void criarEquipe(Usuario usuario) {
-        DatabaseReference reference = ConfiguracoesFirebase.getFirebase();
-        reference.child("equipes/").child(String.valueOf(getEquipeId())).child("dados/").setValue(this);
-
-        //adiciona o membro adm que criou a equipe
-        DatabaseReference reference2 = ConfiguracoesFirebase.getFirebase();
-
-        reference2.child("equipes/").child(String.valueOf(getEquipeId())).child("membros/").child(usuario.getIdUsuario()).setValue(usuario);
 
 
     }

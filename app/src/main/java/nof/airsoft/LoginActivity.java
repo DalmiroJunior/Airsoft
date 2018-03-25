@@ -102,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                finish();
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, "Usuário e/ou senha incorreta", Toast.LENGTH_LONG).show();
                             }

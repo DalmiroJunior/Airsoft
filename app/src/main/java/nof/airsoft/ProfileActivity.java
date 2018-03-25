@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,14 +52,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         carregaUsuario(idUsuario);
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null) {
-            finish();
             startActivity(new Intent(this, LoginActivity.class));
-
+            finish();
         }
     }
 
     public void carregaUsuario(String idUsuario) {
 
+        Log.v("", "IdUsuario");
         new GetDataFromFirebase().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         databaseReference = FirebaseDatabase.getInstance().getReference("usuarios/" + idUsuario);
         databaseReference.keepSynced(true);
@@ -102,16 +103,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
             private void saveUserInformation(){
+                SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(this);
                     String nome = editTextNome.getText().toString().trim();
                     String contato = editTextContato.getText().toString().trim();
                     String endereco = editTextEndereco.getText().toString().trim();
 
-                    Usuario userInformation = new Usuario(usuario.getIdUsuario(), nome, contato, endereco, usuario.getIdEquipe());
+                    Usuario userInformation = new Usuario(nome, contato, endereco);
 
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    databaseReference.child(user.getUid()).setValue(userInformation);
-                    SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(this);
-                    sharedPreferencesUser.salvarUsuarioPreferences(user.getUid(), nome, contato, endereco);
+                    databaseReference.child(idUsuario).setValue(userInformation);
+
                     Toast.makeText(this, "Informações salvas " + nome, Toast.LENGTH_SHORT).show();
 
 
